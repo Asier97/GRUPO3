@@ -104,7 +104,6 @@ CREATE TABLE Parte (
   gasto_otros NUMBER(5,2),
   fecha DATE,
   validacion VARCHAR2(2) NOT NULL,
-  gastos NUMBER,
   incidencias VARCHAR2(300),
   CONSTRAINT par_alb_pk PRIMARY KEY (id),
   CONSTRAINT par_dni_fk FOREIGN KEY (DNI) REFERENCES Trabajador(DNI),
