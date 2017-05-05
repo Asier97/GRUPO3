@@ -82,7 +82,7 @@ CREATE TABLE Vehiculo (
   matricula VARCHAR2(10),
   marca VARCHAR2(20),
   modelo VARCHAR2(20),
-  peso NUMBER(5,3) NOT NULL,
+  peso NUMBER(7,2) NOT NULL,
   CONSTRAINT veh_mat_pk PRIMARY KEY (matricula)
 );
   
@@ -93,11 +93,11 @@ CREATE TABLE Parte (
                   START WITH 1 
                   NOMAXVALUE                
                 ),
-  albaran NUMBER,
+  albaran VARCHAR2(20),
   matricula VARCHAR2(10) NOT NULL,
   DNI VARCHAR2 (9) NOT NULL,
-  km_inicio NUMBER(5,3) NOT NULL,
-  km_final NUMBER(5,3) NOT NULL,
+  km_inicio NUMBER(7,2) NOT NULL,
+  km_final NUMBER(7,2),
   gasto_gasoil NUMBER(5,2),
   gasto_peaje NUMBER(4,2),
   gasto_dietas NUMBER(4,2),
@@ -118,9 +118,17 @@ CREATE TABLE viaje (
                   START WITH 1
                   NOMAXVALUE
                 ),
-  hora_ini NUMBER(2,2) NOT NULL,
-  hora_fin NUMBER(2,2) NOT NULL,
+  hora_ini NUMBER(4,2) NOT NULL,
+  hora_fin NUMBER(4,2) NOT NULL,
   id_parte NUMBER,
   CONSTRAINT via_id_pk PRIMARY KEY (id),
   CONSTRAINT via_alb_fk FOREIGN KEY (id_parte) REFERENCES parte(id)
+);
+
+CREATE TABLE parte_temp (
+id NUMBER,
+cerrado VARCHAR2(2),
+CONSTRAINT partemp_id_pk PRIMARY KEY (id),
+CONSTRAINT partemp_id_fk FOREIGN KEY (id) REFERENCES Parte(id),
+CONSTRAINT partemp_cer_ck CHECK (cerrado IN ('si','no'))
 );
