@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<informe>
+    <partes>
+        <parte dni="">
+            <albaran>aaaaaaaaaa</albaran>
+            <Trabajador/>
+            <kilometros>
+                <kmInicio/>
+                <kmFinales/>
+            </kilometros>
+            <gastos>
+                <gasoil/>
+                <peaje/>
+                <dietas/>
+                <otros/>
+            </gastos>
+            <incidencia/>
+            <validacion/>
+            <matricula/>
+            <dni/>
+        </parte>
+    </partes>
+</informe>
