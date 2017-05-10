@@ -18,6 +18,8 @@ BEGIN
   WHERE DNI = vDNI
   ORDER BY DNI;
 EXCEPTION
-WHEN NO_DATA_FOUND THEN
-RAISE_APPLICATION_ERROR(-20015 , 'No existe un trabajador con ese DNI' );
+  WHEN NO_DATA_FOUND THEN
+    RAISE_APPLICATION_ERROR(-20015 , 'No existe un trabajador con ese DNI' );
+  WHEN TOO_MANY_ROWS THEN
+    RAISE_APPLICATION_ERROR(-20013, 'Se han encontrado más valores de los esperados');
 END;
