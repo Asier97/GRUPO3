@@ -120,6 +120,7 @@ CREATE TABLE viaje (
                 ),
   hora_ini NUMBER(4,2) NOT NULL,
   hora_fin NUMBER(4,2) NOT NULL,
+  horas_exceso NUMBER (4,2),
   id_parte NUMBER,
   CONSTRAINT via_id_pk PRIMARY KEY (id),
   CONSTRAINT via_alb_fk FOREIGN KEY (id_parte) REFERENCES parte(id)
