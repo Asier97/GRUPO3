@@ -11,40 +11,42 @@ IS
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
       RAISE_APPLICATION_ERROR(-20014, 'No se han encontrado datos');
+    WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR(-20100, 'Error genérico, consulta a un administrador');
   END;
   
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==
   
-  PROCEDURE VISUALIZAR_DATOS_CENTRO_ID(P_ID IN NUMBER,PDATOS_CENTRO OUT VARCHAR2, PNUM_TRABAJADORES OUT NUMBER)
+  PROCEDURE VISUALIZAR_DATOS_CENTRO_ID(P_ID IN NUMBER,C_CENTROS OUT CURSOR_CENTROS)
   IS
   BEGIN
-      SELECT CODIGO INTO PDATOS_CENTRO
+    OPEN C_CENTROS
+    FOR
+      SELECT *
       FROM CENTRO
       WHERE CODIGO = P_ID;
-      SELECT COUNT(DNI) AS "Trabajadores del centro" INTO PNUM_TRABAJADORES
-      FROM TRABAJADOR
-      WHERE CENTRO = P_ID;
-        IF PNUM_TRABAJADORES IS NULL THEN
-        RAISE_APPLICATION_ERROR (-20012, 'Tabla trabajadores vacía');
-        END IF;
   EXCEPTION
     WHEN TOO_MANY_ROWS THEN
       RAISE_APPLICATION_ERROR(-20013, 'Se han encontrado más valores de los esperados');
     WHEN NO_DATA_FOUND THEN
       RAISE_APPLICATION_ERROR(-20014, 'No se han encontrado datos');
+    WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR(-20100, 'Error genérico, consulta a un administrador');
   END;
     
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==
 
-  PROCEDURE VISUALIZAR_DATOS_CENTRO_NOMBRE(P_NOMBRE IN VARCHAR2, PDATOS_CENTRO OUT VARCHAR2, PNUM_TRABAJADORES OUT NUMBER)
+  PROCEDURE VISUALIZAR_DATOS_CENTRO_NOMBRE(vNOMBRE IN CENTRO.NOMBRE%TYPE, C_CENTROS OUT CURSOR_CENTROS, PNUM_TRABAJADORES OUT NUMBER)
   IS
   BEGIN
-      SELECT CODIGO INTO PDATOS_CENTRO
+    OPEN C_CENTROS
+    FOR
+      SELECT *
       FROM CENTRO 
-      WHERE UPPER(NOMBRE)=UPPER(P_NOMBRE);
+      WHERE NOMBRE = vNOMBRE;
     SELECT COUNT(DNI) AS "Trabajadores del centro" INTO PNUM_TRABAJADORES
     FROM TRABAJADOR 
-    WHERE UPPER(NOMBRE)=UPPER(P_NOMBRE);
+    WHERE NOMBRE= vNOMBRE;
     IF PNUM_TRABAJADORES IS NULL THEN
       RAISE_APPLICATION_ERROR(-20102, 'Tabla de trabajadores vacía');
     END IF;
@@ -53,6 +55,8 @@ IS
       RAISE_APPLICATION_ERROR(-20013, 'Se han encontrado más valores de los esperados');
     WHEN NO_DATA_FOUND THEN
       RAISE_APPLICATION_ERROR(-20014, 'No se han encontrado datos');
+    WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR(-20100, 'Error genérico, consulta a un administrador');
   END;
   
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==
@@ -66,6 +70,8 @@ IS
       RAISE_APPLICATION_ERROR(-20013, 'Se han encontrado más valores de los esperados');
     WHEN NO_DATA_FOUND THEN
       RAISE_APPLICATION_ERROR(-20014, 'No se han encontrado datos');
+    WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR(-20100, 'Error genérico, consulta a un administrador');
  
   END;
 
@@ -81,6 +87,26 @@ IS
       RAISE_APPLICATION_ERROR(-20013, 'Se han encontrado más valores de los esperados');
     WHEN NO_DATA_FOUND THEN
       RAISE_APPLICATION_ERROR(-20014, 'No se han encontrado datos');
+    WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR(-20100, 'Error genérico, consulta a un administrador');
  
   END;
+
+--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==
+
+  PROCEDURE BORRAR_DATOS_CENTRO(vCODIGO IN CENTRO.CODIGO%TYPE)
+  IS
+  BEGIN
+    DELETE
+    FROM CENTRO
+  WHERE CODIGO = vCODIGO;
+    EXCEPTION
+      WHEN TOO_MANY_ROWS THEN
+        RAISE_APPLICATION_ERROR(-20013, 'Se han encontrado más valores de los esperados');
+      WHEN NO_DATA_FOUND THEN
+        RAISE_APPLICATION_ERROR(-20014, 'No se han encontrado datos');
+      WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR(-20100, 'Error genérico, consulta a un administrador');
+  END;
+  
 END;
